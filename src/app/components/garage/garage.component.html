@@ -1,0 +1,87 @@
+<header>
+  <div class="race-controls">
+    <button mat-flat-button color="primary" matTooltip="Start Car">
+      <mat-icon>play_arrow</mat-icon>
+      Start
+    </button>
+    <button mat-stroked-button color="primary" matTooltip="Reset Car">
+      <mat-icon>restart_alt</mat-icon>
+      Reset
+    </button>
+  </div>
+  <div class="cars-control">
+    <form
+      class="car-controls"
+      [formGroup]="newCarForm"
+      (ngSubmit)="onCreateCar()"
+    >
+      <mat-form-field class="form-input" color="primary">
+        <mat-label>Type Car Brand</mat-label>
+        <input matInput type="text" formControlName="carName" />
+      </mat-form-field>
+      <input matInput type="color" formControlName="carColor" />
+      <button
+        type="submit"
+        mat-stroked-button
+        color="primary"
+        matTooltip="Add Car"
+      >
+        Create
+      </button>
+    </form>
+    <form
+      class="car-controls"
+      [formGroup]="updateCarForm"
+      (ngSubmit)="onUpdateCar()"
+    >
+      <mat-form-field class="form-input" color="primary">
+        <mat-label>Type Car Brand</mat-label>
+        <input matInput type="text" formControlName="carName" />
+      </mat-form-field>
+      <input matInput type="color" formControlName="carColor" />
+      <button
+        type="submit"
+        mat-stroked-button
+        color="primary"
+        matTooltip="Update Car"
+        [disabled]="!isCarUpdate()"
+      >
+        Update
+      </button>
+    </form>
+  </div>
+  <button
+    mat-flat-button
+    color="primary"
+    matTooltip="Add Random Cars"
+    (click)="onGenerateCars()"
+  >
+    Generate Cars
+  </button>
+</header>
+
+<main>
+  <section class="garage-racing-area">
+    @for (car of cars(); track car.id) {
+      <app-car [carInfo]="car" (onAction)="onCarAction($event)"></app-car>
+    }
+  </section>
+  <section class="garage-details-area">
+    <h1>{{ nameWithCount() }}</h1>
+
+    @if (cars().length > 7) {
+      <div class="page-info">
+        <h3>{{ pageInfo() }}</h3>
+
+        <mat-paginator
+          [length]="cars().length"
+          [pageSize]="7"
+          [hidePageSize]="true"
+          (page)="onPaginatorPageChange($event)"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </div>
+    }
+  </section>
+</main>

@@ -1,0 +1,41 @@
+<div class="car-controls">
+  <button
+    mat-icon-button
+    color="primary"
+    matTooltip="Update Car"
+    (click)="onActionBtn({ id: carInfo().id, action: 'update' })"
+  >
+    <mat-icon>tune</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    color="primary"
+    matTooltip="Start Car"
+    (click)="onActionBtn({ id: carInfo().id, action: 'start' })"
+  >
+    <mat-icon>play_arrow</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    color="primary"
+    matTooltip="Delete Car"
+    (click)="onActionBtn({ id: carInfo().id, action: 'delete' })"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    color="primary"
+    matTooltip="Reset Car"
+    (click)="onActionBtn({ id: carInfo().id, action: 'reset' })"
+  >
+    <mat-icon>restart_alt</mat-icon>
+  </button>
+</div>
+<div class="car-icon">
+  <mat-icon [style.color]="carInfo().color">snowmobile</mat-icon>
+</div>
+<div class="race-start-line">start</div>
+<div class="race-line">{{ carInfo().name }}</div>
+<div class="race-finish-line">finish</div>
+<div class="race-winners-spot"></div>

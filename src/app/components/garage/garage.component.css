@@ -1,0 +1,76 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.cars-control {
+  display: flex;
+  align-items: center;
+  column-gap: 4rem;
+  flex-wrap: inherit;
+}
+
+.race-controls {
+  flex-wrap: inherit;
+}
+
+.cars-control .car-controls,
+.race-controls {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.cars-control .car-controls .form-input {
+  width: 150px;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+.garage-racing-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  border: 2px dashed gray;
+  padding: 0.5rem;
+}
+
+.garage-details-area {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.garage-details-area .page-info {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+h1,
+h3 {
+  margin: 0;
+}
+
+button {
+  border-radius: 12px;
+}
+
+mat-paginator {
+  background: transparent;
+}

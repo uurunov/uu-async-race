@@ -1,0 +1,29 @@
+:host {
+  height: 100%;
+}
+
+main {
+  padding: 0 1rem;
+}
+
+.winners-details-area {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.winners-details-area .page-info {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+h1,
+h3 {
+  margin: 0;
+}
+
+mat-paginator {
+  background: transparent;
+}

@@ -1,1 +1,34 @@
-<h1>Welcome to UU-Async-Race!</h1>
+<div id="rootContainer">
+  <header>
+    <h1>Async Race <sub>by uurunov</sub></h1>
+
+    <nav>
+      <ul>
+        <li>
+          <a
+            mat-flat-button
+            color="basic"
+            routerLink="/garage"
+            routerLinkActive="mat-accent"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ariaCurrentWhenActive="page"
+            >Garage</a
+          >
+        </li>
+        <li>
+          <a
+            mat-flat-button
+            color="basic"
+            routerLink="/winners"
+            routerLinkActive="mat-accent"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ariaCurrentWhenActive="page"
+            >Winners</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <router-outlet></router-outlet>
+</div>
