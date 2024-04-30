@@ -17,14 +17,15 @@
     >
       <mat-form-field class="form-input" color="primary">
         <mat-label>Type Car Brand</mat-label>
-        <input matInput type="text" formControlName="carName" />
+        <input matInput type="text" formControlName="name" />
       </mat-form-field>
-      <input matInput type="color" formControlName="carColor" />
+      <input matInput type="color" formControlName="color" />
       <button
         type="submit"
         mat-stroked-button
         color="primary"
         matTooltip="Add Car"
+        [disabled]="!newCarForm.value.name"
       >
         Create
       </button>
@@ -36,15 +37,15 @@
     >
       <mat-form-field class="form-input" color="primary">
         <mat-label>Type Car Brand</mat-label>
-        <input matInput type="text" formControlName="carName" />
+        <input matInput type="text" formControlName="name" />
       </mat-form-field>
-      <input matInput type="color" formControlName="carColor" />
+      <input matInput type="color" formControlName="color" />
       <button
         type="submit"
         mat-stroked-button
         color="primary"
         matTooltip="Update Car"
-        [disabled]="!isCarUpdate()"
+        [disabled]="!updateCarForm.value.name"
       >
         Update
       </button>
@@ -69,13 +70,13 @@
   <section class="garage-details-area">
     <h1>{{ nameWithCount() }}</h1>
 
-    @if (cars().length > 7) {
+    @if (cars().length > pageLimit) {
       <div class="page-info">
         <h3>{{ pageInfo() }}</h3>
 
         <mat-paginator
           [length]="cars().length"
-          [pageSize]="7"
+          [pageSize]="pageLimit"
           [hidePageSize]="true"
           (page)="onPaginatorPageChange($event)"
           aria-label="Select page"

@@ -8,11 +8,14 @@ import {
   viewChild,
   effect,
   untracked,
+  inject,
+  computed,
 } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Winner } from '../../models/winner';
 import { WinnersService } from '../../services/winners/winners.service';
+import { AppSettings } from '../../constants/app-settings';
 
 @Component({
   selector: 'app-winners',
@@ -22,22 +25,29 @@ import { WinnersService } from '../../services/winners/winners.service';
   styleUrl: './winners.component.css',
 })
 export class WinnersComponent implements OnInit, AfterViewInit {
-  name: string = 'Winners';
-  pageNumber: number = 1;
+  // services
+  winnersService: WinnersService = inject(WinnersService);
+
+  // properties
+  readonly pageLimit = AppSettings.WINNERS_PAGE_LIMIT;
+
+  winners: WritableSignal<Winner[]> = signal<Winner[]>([]);
+
+  pageNumber: WritableSignal<number> = signal(1);
+
+  pageInfo: Signal<string> = computed(() => `Page ${this.pageNumber()}`);
+
+  nameWithCount: Signal<string> = computed(
+    () => `Winners (${this.winners().length})`,
+  );
 
   displayedColumns: string[] = ['id', 'car', 'name', 'wins', 'bestTime'];
 
-  winners: WritableSignal<Winner[]> = signal<Winner[]>([]);
-  paginator: Signal<MatPaginator> = viewChild.required(MatPaginator);
   dataSource = new MatTableDataSource<Winner>();
 
-  constructor(private winnersService: WinnersService) {
-    effect(() => {
-      this.paginator();
+  // paginator: Signal<MatPaginator> = viewChild.required(MatPaginator);
 
-      untracked(() => (this.dataSource.paginator = this.paginator()));
-    });
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.getAllWinners();
@@ -45,6 +55,7 @@ export class WinnersComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {}
 
+  // methods
   getAllWinners() {
     this.winnersService.getWinners().subscribe((winners: Winner[]) => {
       console.log(winners);

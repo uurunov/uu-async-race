@@ -41,7 +41,7 @@ main {
 }
 
 .garage-racing-area {
-  flex-grow: 1;
+  height: 675px;
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
@@ -50,7 +50,7 @@ main {
 }
 
 .garage-details-area {
-  height: 64px;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -73,4 +73,10 @@ button {
 
 mat-paginator {
   background: transparent;
+}
+
+.garage-racing-area {
+  overflow: hidden auto;
+  scrollbar-color: #ffd740 gray;
+  scrollbar-width: thin;
 }

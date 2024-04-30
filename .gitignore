@@ -20,6 +20,7 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 .nx/
+.nx/*
 
 # Visual Studio Code
 .vscode/

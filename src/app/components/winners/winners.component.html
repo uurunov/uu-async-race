@@ -34,15 +34,15 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
   <section class="winners-details-area">
-    <h1>{{ name }} ({{ winners().length }})</h1>
+    <h1>{{ nameWithCount() }}</h1>
 
-    @if (winners().length > 0) {
+    @if (winners().length > pageLimit) {
       <div class="page-info">
-        <h3>Page {{ pageNumber }}</h3>
+        <h3>{{ pageInfo() }}</h3>
 
         <mat-paginator
           [length]="winners().length"
-          [pageSize]="10"
+          [pageSize]="pageLimit"
           [hidePageSize]="true"
           aria-label="Select page"
         >
