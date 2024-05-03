@@ -1,10 +1,22 @@
 <header>
   <div class="race-controls">
-    <button mat-flat-button color="primary" matTooltip="Start Car">
+    <button
+      mat-flat-button
+      color="primary"
+      matTooltip="Start Car"
+      [disabled]="isStartRacing()"
+      (click)="onStartRacing()"
+    >
       <mat-icon>play_arrow</mat-icon>
       Start
     </button>
-    <button mat-stroked-button color="primary" matTooltip="Reset Car">
+    <button
+      (click)="onResetRacing()"
+      mat-stroked-button
+      color="primary"
+      [disabled]="!isStartRacing()"
+      matTooltip="Reset Car"
+    >
       <mat-icon>restart_alt</mat-icon>
       Reset
     </button>
@@ -63,19 +75,28 @@
 
 <main>
   <section class="garage-racing-area">
-    @for (car of cars(); track car.id) {
-      <app-car [carInfo]="car" (onAction)="onCarAction($event)"></app-car>
+    @for (car of store.groupCars(); track car.id) {
+      <app-car
+        [carInfo]="car"
+        [setReadyGo]="isStartRacing()"
+        (onAction)="onCarAction($event)"
+      ></app-car>
     }
   </section>
   <section class="garage-details-area">
-    <h1>{{ nameWithCount() }}</h1>
+    <h1>{{ store.nameWithCount() }}</h1>
 
-    @if (cars().length > pageLimit) {
+    @if (store.selectedId()) {
+      <h3>Selected Car ID: {{ store.selectedId() }}</h3>
+    }
+
+    @if (store.total() > pageLimit) {
       <div class="page-info">
-        <h3>{{ pageInfo() }}</h3>
+        <h3>{{ store.pageInfo() }}</h3>
 
         <mat-paginator
-          [length]="cars().length"
+          [length]="store.total()"
+          [pageIndex]="store.paginationIndex()"
           [pageSize]="pageLimit"
           [hidePageSize]="true"
           (page)="onPaginatorPageChange($event)"

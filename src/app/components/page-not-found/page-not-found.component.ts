@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './page-not-found.component.html',
-  styleUrl: './page-not-found.component.css'
+  styleUrl: './page-not-found.component.css',
 })
 export class PageNotFoundComponent {
-
+  message: string = 'Sorry! Your page is not found!';
 }

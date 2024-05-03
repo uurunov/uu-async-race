@@ -1,41 +1,56 @@
 <div class="car-controls">
   <button
+    [disabled]="carRacingState() === 'stopped' ? false : true"
+    mat-icon-button
+    color="primary"
+    matTooltip="Start Car"
+    (click)="
+      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'started' })
+    "
+  >
+    <mat-icon>play_arrow</mat-icon>
+  </button>
+  <button
+    [disabled]="carRacingState() === 'stopped' ? true : false"
+    mat-icon-button
+    color="primary"
+    matTooltip="Stop/Reset Car"
+    (click)="
+      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'stopped' })
+    "
+  >
+    <mat-icon>stop</mat-icon>
+  </button>
+  <button
     mat-icon-button
     color="primary"
     matTooltip="Update Car"
-    (click)="onActionBtn({ id: carInfo().id, action: 'update' })"
+    (click)="
+      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'update' })
+    "
   >
     <mat-icon>tune</mat-icon>
   </button>
   <button
     mat-icon-button
     color="primary"
-    matTooltip="Start Car"
-    (click)="onActionBtn({ id: carInfo().id, action: 'start' })"
-  >
-    <mat-icon>play_arrow</mat-icon>
-  </button>
-  <button
-    mat-icon-button
-    color="primary"
     matTooltip="Delete Car"
-    (click)="onActionBtn({ id: carInfo().id, action: 'delete' })"
+    (click)="
+      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'delete' })
+    "
   >
     <mat-icon>delete</mat-icon>
   </button>
-  <button
-    mat-icon-button
-    color="primary"
-    matTooltip="Reset Car"
-    (click)="onActionBtn({ id: carInfo().id, action: 'reset' })"
+</div>
+<div class="car-road">
+  <div
+    class="car-icon"
+    [@readyGo]="{ value: carRacingState(), params: { time: timing() } }"
   >
-    <mat-icon>restart_alt</mat-icon>
-  </button>
+    <mat-icon [style.color]="carInfo().color">snowmobile</mat-icon>
+  </div>
+  <div class="race-start-line">start</div>
+  <div class="race-line">{{ carInfo().name }}</div>
+  <div class="race-finish-line">finish</div>
+  <div class="race-winners-spot"></div>
 </div>
-<div class="car-icon">
-  <mat-icon [style.color]="carInfo().color">snowmobile</mat-icon>
-</div>
-<div class="race-start-line">start</div>
-<div class="race-line">{{ carInfo().name }}</div>
-<div class="race-finish-line">finish</div>
-<div class="race-winners-spot"></div>
