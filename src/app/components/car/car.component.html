@@ -1,22 +1,32 @@
 <div class="car-controls">
   <button
-    [disabled]="carRacingState() === 'stopped' ? false : true"
+    [disabled]="setReadyGo() || singleCarRaceState()"
     mat-icon-button
     color="primary"
     matTooltip="Start Car"
     (click)="
-      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'started' })
+      onActionBtn({
+        id: carInfo().id,
+        name: carInfo().name,
+        action: 'started',
+        color: carInfo().color
+      })
     "
   >
     <mat-icon>play_arrow</mat-icon>
   </button>
   <button
-    [disabled]="carRacingState() === 'stopped' ? true : false"
+    [disabled]="singleCarRaceState() ? !singleCarRaceState() : !setReadyGo()"
     mat-icon-button
     color="primary"
     matTooltip="Stop/Reset Car"
     (click)="
-      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'stopped' })
+      onActionBtn({
+        id: carInfo().id,
+        name: carInfo().name,
+        action: 'stopped',
+        color: carInfo().color
+      })
     "
   >
     <mat-icon>stop</mat-icon>
@@ -26,7 +36,12 @@
     color="primary"
     matTooltip="Update Car"
     (click)="
-      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'update' })
+      onActionBtn({
+        id: carInfo().id,
+        name: carInfo().name,
+        action: 'update',
+        color: carInfo().color
+      })
     "
   >
     <mat-icon>tune</mat-icon>
@@ -36,16 +51,24 @@
     color="primary"
     matTooltip="Delete Car"
     (click)="
-      onActionBtn({ id: carInfo().id, name: carInfo().name, action: 'delete' })
+      onActionBtn({
+        id: carInfo().id,
+        name: carInfo().name,
+        action: 'delete',
+        color: carInfo().color
+      })
     "
   >
     <mat-icon>delete</mat-icon>
   </button>
 </div>
-<div class="car-road">
+<div class="car-road" #carRoad>
   <div
     class="car-icon"
-    [@readyGo]="{ value: carRacingState(), params: { time: timing() } }"
+    [@readyGo]="{
+      value: carRacingState(),
+      params: { time: timing(), leftValue: getLeftValue() }
+    }"
   >
     <mat-icon [style.color]="carInfo().color">snowmobile</mat-icon>
   </div>

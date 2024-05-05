@@ -1,8 +1,8 @@
 :host {
   height: 100%;
-}
-
-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 0 1rem;
 }
 
@@ -26,4 +26,11 @@ h3 {
 
 mat-paginator {
   background: transparent;
+}
+
+table {
+  overflow: hidden auto;
+  scrollbar-color: #ffd740 gray;
+  scrollbar-width: thin;
+  border: 2px dashed gray;
 }

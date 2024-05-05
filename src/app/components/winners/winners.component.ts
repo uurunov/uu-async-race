@@ -1,66 +1,48 @@
-import {
-  Component,
-  AfterViewInit,
-  OnInit,
-  signal,
-  WritableSignal,
-  Signal,
-  viewChild,
-  effect,
-  untracked,
-  inject,
-  computed,
-} from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Winner } from '../../models/winner';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { WinnersService } from '../../services/winners/winners.service';
 import { AppSettings } from '../../constants/app-settings';
+import { AppStore } from '../../stores/app.store';
+import { GarageService } from '../../services/garage/garage.service';
 
 @Component({
   selector: 'app-winners',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule],
   templateUrl: './winners.component.html',
   styleUrl: './winners.component.css',
 })
-export class WinnersComponent implements OnInit, AfterViewInit {
+export class WinnersComponent implements OnInit {
+  // stores
+  readonly store = inject(AppStore);
+
   // services
   winnersService: WinnersService = inject(WinnersService);
+  garageService: GarageService = inject(GarageService);
 
   // properties
   readonly pageLimit = AppSettings.WINNERS_PAGE_LIMIT;
-
-  winners: WritableSignal<Winner[]> = signal<Winner[]>([]);
-
-  pageNumber: WritableSignal<number> = signal(1);
-
-  pageInfo: Signal<string> = computed(() => `Page ${this.pageNumber()}`);
-
-  nameWithCount: Signal<string> = computed(
-    () => `Winners (${this.winners().length})`,
-  );
-
-  displayedColumns: string[] = ['id', 'car', 'name', 'wins', 'bestTime'];
-
-  dataSource = new MatTableDataSource<Winner>();
-
-  // paginator: Signal<MatPaginator> = viewChild.required(MatPaginator);
+  displayedColumns: string[] = ['id', 'car', 'name', 'wins', 'time'];
 
   constructor() {}
 
   ngOnInit(): void {
-    this.getAllWinners();
+    this.fetchWinners();
   }
 
-  ngAfterViewInit(): void {}
-
   // methods
-  getAllWinners() {
-    this.winnersService.getWinners().subscribe((winners: Winner[]) => {
-      console.log(winners);
-      this.winners.set(winners);
-      this.dataSource.data = this.winners();
-    });
+  fetchWinners() {
+    this.store.getWinnersAsGroup();
+  }
+
+  onPaginatorPageChange(event: PageEvent) {
+    this.store.setWinnersPaginationPage(event.pageIndex);
+  }
+
+  onSortTable(event: Sort) {
+    this.store.setWinnersSortState(event);
   }
 }

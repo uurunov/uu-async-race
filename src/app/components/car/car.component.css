@@ -26,7 +26,6 @@
   justify-content: center;
   z-index: 10;
   position: relative;
-  left: 0;
 }
 
 .car-icon mat-icon {
@@ -69,5 +68,5 @@
 
 .race-winners-spot {
   height: 100%;
-  width: 96px;
+  width: 56px;
 }

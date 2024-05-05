@@ -3,7 +3,7 @@
     <button
       mat-flat-button
       color="primary"
-      matTooltip="Start Car"
+      matTooltip="Start Race"
       [disabled]="isStartRacing()"
       (click)="onStartRacing()"
     >
@@ -15,7 +15,7 @@
       mat-stroked-button
       color="primary"
       [disabled]="!isStartRacing()"
-      matTooltip="Reset Car"
+      matTooltip="Reset Race"
     >
       <mat-icon>restart_alt</mat-icon>
       Reset
@@ -49,15 +49,25 @@
     >
       <mat-form-field class="form-input" color="primary">
         <mat-label>Type Car Brand</mat-label>
-        <input matInput type="text" formControlName="name" />
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          (input)="onFormControlChange()"
+        />
       </mat-form-field>
-      <input matInput type="color" formControlName="color" />
+      <input
+        matInput
+        type="color"
+        formControlName="color"
+        (input)="onFormControlChange()"
+      />
       <button
         type="submit"
         mat-stroked-button
         color="primary"
         matTooltip="Update Car"
-        [disabled]="!updateCarForm.value.name"
+        [disabled]="!onFormControl()"
       >
         Update
       </button>
@@ -75,28 +85,28 @@
 
 <main>
   <section class="garage-racing-area">
-    @for (car of store.groupCars(); track car.id) {
+    @for (car of store.cars(); track car.id) {
       <app-car
         [carInfo]="car"
-        [setReadyGo]="isStartRacing()"
+        [(setReadyGo)]="isStartRacing"
         (onAction)="onCarAction($event)"
       ></app-car>
     }
   </section>
   <section class="garage-details-area">
-    <h1>{{ store.nameWithCount() }}</h1>
+    <h1>{{ store.garageInfo() }}</h1>
 
-    @if (store.selectedId()) {
-      <h3>Selected Car ID: {{ store.selectedId() }}</h3>
+    @if (store.selectedCarId()) {
+      <h3>Selected Car ID: {{ store.selectedCarId() }}</h3>
     }
 
-    @if (store.total() > pageLimit) {
+    @if (store.totalCarsCount() > pageLimit) {
       <div class="page-info">
-        <h3>{{ store.pageInfo() }}</h3>
+        <h3>{{ store.garagePageInfo() }}</h3>
 
         <mat-paginator
-          [length]="store.total()"
-          [pageIndex]="store.paginationIndex()"
+          [length]="store.totalCarsCount()"
+          [pageIndex]="store.garagePaginationIndex()"
           [pageSize]="pageLimit"
           [hidePageSize]="true"
           (page)="onPaginatorPageChange($event)"

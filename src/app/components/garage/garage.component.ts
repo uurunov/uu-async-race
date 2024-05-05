@@ -55,6 +55,7 @@ export class GarageComponent implements OnInit {
   // properties
   readonly pageLimit = AppSettings.GARAGE_PAGE_LIMIT;
   isStartRacing: WritableSignal<boolean> = signal(false);
+  onFormControl: WritableSignal<boolean> = signal(false);
 
   newCarForm = new FormGroup({
     name: new FormControl<string>(this.store.newCarForm.name(), {
@@ -129,7 +130,6 @@ export class GarageComponent implements OnInit {
     });
 
     this.updateCarForm.disable();
-    console.log(this.updateCarForm.value);
 
     this.setUpdateCarForm(
       `${AppSettings.CAR_NAME_DEFAULT}`,
@@ -149,17 +149,29 @@ export class GarageComponent implements OnInit {
     for (let i = 0; i < AppSettings.RANDOM_CARS_COUNT; i++) {
       this.store.createCar({ name: randomCarNames[i], color: randomColors[i] });
     }
+
+    this.fetchCars();
   }
 
   onCarAction(event: CarAction) {
     if (event.action === 'update') {
-      this.store.setSelectedId(event.id);
+      this.store.setSelectedCarId(event.id);
       this.updateCarForm.enable();
+      this.updateCarForm.patchValue({ color: event.color });
+      this.updateCarForm.patchValue({ name: event.name });
       this.snackBar.open(
         `You selected ${event.name.toUpperCase()} with ID ${event.id}`,
         '',
         {
           duration: 2000,
+        },
+      );
+    } else if (event.action === 'winner') {
+      this.snackBar.open(
+        `Winner: ${event.name.toUpperCase()} with ID ${event.id}`,
+        '',
+        {
+          duration: 5000,
         },
       );
     } else {
@@ -168,7 +180,8 @@ export class GarageComponent implements OnInit {
   }
 
   onPaginatorPageChange(event: PageEvent) {
-    this.store.setPage(event.pageIndex);
+    this.store.setGaragePaginationPage(event.pageIndex);
+    this.store.setWinnerState(false);
   }
 
   onNewCarForm() {
@@ -184,6 +197,7 @@ export class GarageComponent implements OnInit {
       `${this.updateCarForm.value.color}`,
       this.updateCarForm.disabled,
     );
+    this.onFormControl.set(false);
   }
 
   setCreateCarForm(carName: string, carColor: string) {
@@ -209,5 +223,9 @@ export class GarageComponent implements OnInit {
 
   onResetRacing() {
     this.isStartRacing.set(false);
+  }
+
+  onFormControlChange() {
+    this.onFormControl.set(true);
   }
 }

@@ -24,15 +24,22 @@ export class GarageService {
     return this.http.get<Car[]>(AppSettings.GET_CARS_CREATE_CAR_URL);
   }
 
+  getCar(carID: number) {
+    return this.http.get<Car>(AppSettings.GET_UPDATE_DELETE_CAR_URL + carID);
+  }
+
   createCar(car: CarServer) {
     return this.http.post<Car>(AppSettings.GET_CARS_CREATE_CAR_URL, car);
   }
 
   updateCar(car: CarServer, carID: number) {
-    return this.http.put<Car>(AppSettings.UPDATE_DELETE_CAR_URL + carID, car);
+    return this.http.put<Car>(
+      AppSettings.GET_UPDATE_DELETE_CAR_URL + carID,
+      car,
+    );
   }
 
   deleteCar(carID: number) {
-    return this.http.delete<{}>(AppSettings.UPDATE_DELETE_CAR_URL + carID);
+    return this.http.delete<{}>(AppSettings.GET_UPDATE_DELETE_CAR_URL + carID);
   }
 }

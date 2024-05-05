@@ -8,7 +8,7 @@ export enum AppSettings {
   RANDOM_CARS_COUNT = 100,
   START_STOP_ENGINE_URL = `${BASE_URL}/engine/`,
   GET_CARS_CREATE_CAR_URL = `${BASE_URL}/garage`,
-  UPDATE_DELETE_CAR_URL = `${BASE_URL}/garage/`,
+  GET_UPDATE_DELETE_CAR_URL = `${BASE_URL}/garage/`,
   GET_WINNERS_CREATE_WINNER_URL = `${BASE_URL}/winners`,
-  UPDATE_DELETE_WINNER_URL = `${BASE_URL}/winners/`,
+  GET_UPDATE_DELETE_WINNER_URL = `${BASE_URL}/winners/`,
 }
